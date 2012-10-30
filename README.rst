@@ -3,7 +3,7 @@ Welcome to FlurryApi a CakePHP Plugin
 =================================================
 
 ``FlurryApi`` is a CakePHP plugin that wraps the Flurry Analytics API, it allows you to plug directly the plugin and start anylayzing 
-your app metrics and a visually stunning UI.
+your app metrics in a visually stunning UI.
 
 Features
 ------------------
@@ -33,6 +33,13 @@ In your ``myapp/Config/bootstrap.php`` add this::
         'FlurryApi' => array('bootstrap' => false, 'routes' => true)
     ));
 
+Provide your api access code and app key inside your ``core.php``::
+
+    Configure::write('FlurryApi', array(
+        'api_access_code' => 'your_api_access_code', // nano api access code
+        'app_key' => 'your_app_key', // voice sms app
+    ));
+   
 Usage
 --------------
 
