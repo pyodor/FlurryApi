@@ -9,13 +9,18 @@ class Flurry {
 		$this->app_key = $app;
 	}
 
-	public function getMetric($metricName, $startDate, $endDate, $country=FALSE, $versionName=FALSE){
+	public function getMetric($metricName, $startDate, $endDate, $country=FALSE, $groupBy=FALSE, $versionName=FALSE){
 		$URLRequest = "http://api.flurry.com/appMetrics/$metricName?apiAccessCode=$this->api_access&apiKey=$this->app_key&startDate=$startDate&endDate=$endDate";
 		if ($country)
-			$URLRequest .= "&country=$country";
+            $URLRequest .= "&country=$country";
+        
+        if ($groupBy && $metricName != 'ActiveUsersByWeek' && 
+            $metricName != 'ActiveUsers' && $metricName != 'ActiveUsersByMonth'  ) 
+            $URLRequest .= "&groupBy=$groupBy";
+
 		if ($versionName)
 			$URLRequest .= "&versionName=$versionName";
-        
+
         $data = array();
 		$config = array(
 			'http' => array(
@@ -32,24 +37,24 @@ class Flurry {
 		return $metricValues;
 	}
 
-	public function getAllMetrics($startDate, $endDate, $country=FALSE, $versionName=FALSE){
+	public function getAllMetrics($startDate, $endDate, $country=FALSE, $groupBy=FALSE, $versionName=FALSE){
 		$metrics = array();
 		
-		$metrics["ActiveUsers"] = getMetric("ActiveUsers", $startDate, $endDate, $country, $versionName);
+		$metrics["ActiveUsers"] = $this->getMetric("ActiveUsers", $startDate, $endDate, $country, $groupBy, $versionName);
 		sleep(1);
-		$metrics["ActiveUsersByWeek"] = getMetric("ActiveUsersByWeek", $startDate, $endDate, $country, $versionName);
+		$metrics["ActiveUsersByWeek"] = $this->getMetric("ActiveUsersByWeek", $startDate, $endDate, $country, $groupBy, $versionName);
 		sleep(1);
-		$metrics["ActiveUsersByMonth"] = getMetric("ActiveUsersByMonth", $startDate, $endDate, $country, $versionName);
+		$metrics["ActiveUsersByMonth"] = $this->getMetric("ActiveUsersByMonth", $startDate, $endDate, $country, $groupBy, $versionName);
 		sleep(1);
-		$metrics["NewUsers"] = getMetric("NewUsers", $startDate, $endDate, $country, $versionName);
+		$metrics["NewUsers"] = $this->getMetric("NewUsers", $startDate, $endDate, $country, $groupBy, $versionName);
 		sleep(1);
-		$metrics["MedianSessionLength"] = getMetric("MedianSessionLength", $startDate, $endDate, $country, $versionName);
+		$metrics["MedianSessionLength"] = $this->getMetric("MedianSessionLength", $startDate, $endDate, $country, $groupBy, $versionName);
 		sleep(1);
-		$metrics["AvgSessionLength"] = getMetric("AvgSessionLength", $startDate, $endDate, $country, $versionName);
+		$metrics["AvgSessionLength"] = $this->getMetric("AvgSessionLength", $startDate, $endDate, $country, $groupBy, $versionName);
 		sleep(1);
-		$metrics["Sessions"] = getMetric("Sessions", $startDate, $endDate, $country, $versionName);
+		$metrics["Sessions"] = $this->getMetric("Sessions", $startDate, $endDate, $country, $groupBy, $versionName);
 		sleep(1);
-		$metrics["RetainedUsers"] = getMetric("RetainedUsers", $startDate, $endDate, $country, $versionName);
+		$metrics["RetainedUsers"] = $this->getMetric("RetainedUsers", $startDate, $endDate, $country, $groupBy, $versionName);
 
 		return $metrics;
 	}

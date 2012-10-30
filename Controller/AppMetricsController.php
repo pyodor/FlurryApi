@@ -11,9 +11,13 @@ class AppMetricsController extends FlurryApiAppController {
     public $uses = array();
 
     public function index() {
-        $api_access_code = 'RDW3J6SXHDWG2F3Z9ZHK';
-        $app_key = '372Z3WPIDCWYSTL54BPM';
-        $flurry = new Flurry($api_access_code, $app_key);
-        debug($flurry->getMetric('RetainedUsers', '2012-10-02', '2012-10-23'));die;
+        $this->redirect('new_users');
+    }
+
+    public function new_users() {
+        $date = $this->oneYearBackFromToday();
+        $flurry = new Flurry($this->api_access_code, $this->app_key);
+        $m = $flurry->getMetric('NewUsers', $date['oneYearBack'], $date['today'], false, 'months');
+        debug($m);die;
     }
 }
