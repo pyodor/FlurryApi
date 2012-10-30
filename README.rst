@@ -33,7 +33,7 @@ In your ``myapp/Config/bootstrap.php`` add this::
         'FlurryApi' => array('bootstrap' => false, 'routes' => true)
     ));
 
-Provide your api access code and app key inside your ``core.php``::
+Provide your api access code and app key inside your ``myapp/Config/core.php``::
 
     Configure::write('FlurryApi', array(
         'api_access_code' => 'your_api_access_code', // nano api access code
