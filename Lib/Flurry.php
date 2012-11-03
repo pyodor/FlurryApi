@@ -8,8 +8,47 @@ class Flurry {
 		$this->api_access = $api;
 		$this->app_key = $app;
 	}
+    
+    public function getAppInfo(){
+		$URLRequest = "http://api.flurry.com/appInfo/getApplication?apiAccessCode=$this->api_access&apiKey=$this->app_key";
 
-	public function getMetric($metricName, $startDate, $endDate, $country=FALSE, $groupBy=FALSE, $versionName=FALSE){
+		$config = array(
+			'http' => array(
+				'header' => 'Accept: application/xml',
+				'method' => 'GET',
+				'ignore_errors' => true
+			)
+		);
+
+		$stream = stream_context_create($config);
+		$xml = file_get_contents($URLRequest,false,$stream);
+
+		$metricValues = new SimpleXMLElement($xml);
+		return $metricValues;
+    }
+
+    public function getEventMetric($metricName, $startDate, $endDate, $versionName=FALSE){
+		$URLRequest = "http://api.flurry.com/eventMetrics/$metricName?apiAccessCode=$this->api_access&apiKey=$this->app_key&startDate=$startDate&endDate=$endDate";
+
+		if ($versionName)
+			$URLRequest .= "&versionName=$versionName";
+
+		$config = array(
+			'http' => array(
+				'header' => 'Accept: application/xml',
+				'method' => 'GET',
+				'ignore_errors' => true
+			)
+		);
+
+		$stream = stream_context_create($config);
+		$xml = file_get_contents($URLRequest,false,$stream);
+
+		$metricValues = new SimpleXMLElement($xml);
+		return $metricValues;
+    }
+
+	public function getAppMetric($metricName, $startDate, $endDate, $country=FALSE, $groupBy=FALSE, $versionName=FALSE){
 		$URLRequest = "http://api.flurry.com/appMetrics/$metricName?apiAccessCode=$this->api_access&apiKey=$this->app_key&startDate=$startDate&endDate=$endDate";
 		if ($country)
             $URLRequest .= "&country=$country";
@@ -21,7 +60,6 @@ class Flurry {
 		if ($versionName)
 			$URLRequest .= "&versionName=$versionName";
 
-        $data = array();
 		$config = array(
 			'http' => array(
 				'header' => 'Accept: application/xml',
@@ -37,7 +75,7 @@ class Flurry {
 		return $metricValues;
 	}
 
-	public function getAllMetrics($startDate, $endDate, $country=FALSE, $groupBy=FALSE, $versionName=FALSE){
+	public function getAllAppMetrics($startDate, $endDate, $country=FALSE, $groupBy=FALSE, $versionName=FALSE){
 		$metrics = array();
 		
 		$metrics["ActiveUsers"] = $this->getMetric("ActiveUsers", $startDate, $endDate, $country, $groupBy, $versionName);

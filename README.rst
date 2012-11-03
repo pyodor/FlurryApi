@@ -27,12 +27,6 @@ Clone the plugin inside your ``myapp/Plugin`` directory::
 
     git clone http://[your_username]@202.172.229.26/rhodecode/FlurryApi
 
-In your ``myapp/Config/bootstrap.php`` add this::
-
-    CakePlugin::loadAll(array(
-        'FlurryApi' => array('bootstrap' => false, 'routes' => true)
-    ));
-
 Provide your api access code and app key inside your ``myapp/Config/core.php``::
 
     Configure::write('FlurryApi', array(
@@ -43,12 +37,10 @@ Provide your api access code and app key inside your ``myapp/Config/core.php``::
 Usage
 --------------
 
-TODO
-
-Configuration
---------------
-
-TODO
+Routes available::
+    
+    /flurry_api/app_info
+    /flurry_api/app_metrics/*
 
 Tests
 --------------
@@ -58,7 +50,7 @@ TODO
 TODO
 ----------------
 
-- AppInfo & EventMetrics API 
+- EventMetrics API & charting
 
 License
 -------

@@ -57,7 +57,7 @@ class AppMetricsController extends FlurryApiAppController {
     private function metric($metric) {
         $date = $this->oneYearBackFromToday();
         $flurry = new Flurry($this->api_access_code, $this->app_key);
-        $new_users = Xml::toArray($flurry->getMetric($metric, $date['oneYearBack'], $date['today'], false, 'months'));
+        $new_users = Xml::toArray($flurry->getAppMetric($metric, $date['oneYearBack'], $date['today'], false, 'months'));
         $data = array_reverse($new_users['appMetrics']['day']);
         unset($new_users['appMetrics']['day']);
         $attr = $new_users['appMetrics'];
