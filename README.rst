@@ -55,7 +55,7 @@ TODO
 TODO
 ----------------
 
-- EventMetrics API & charting
+- Charting
 
 License
 -------
