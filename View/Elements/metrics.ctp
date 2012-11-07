@@ -26,7 +26,7 @@
 <?php foreach($data as $day) { ?>
     <tr>
         <td>
-<?php echo date("M Y", strtotime($day['@date'])) ?>
+<?php echo date(!isset($attr['@groupBy']) ? "M d, Y" : "M Y", strtotime($day['@date'])) ?>
         </td>
         <td>
 <?php echo $this->Number->format($day['@value']) ?>
