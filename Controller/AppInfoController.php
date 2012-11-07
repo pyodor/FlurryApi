@@ -12,10 +12,10 @@ class AppInfoController extends FlurryApiAppController {
 
     public function index() {
         $flurry = new Flurry($this->api_access_code, $this->app_key);
-        $new_users = Xml::toArray($flurry->getAppInfo());
-        $versions = array_reverse($new_users['appInfo']['version']);
-        unset($new_users['appInfo']['version']);
-        $attr = $new_users['appInfo'];
+        $app_info = Xml::toArray($flurry->getAppInfo());
+        $versions = array_reverse($app_info['appInfo']['version']);
+        unset($app_info['appInfo']['version']);
+        $attr = $app_info['appInfo'];
         $this->set(compact('attr', 'versions'));
     }
 }

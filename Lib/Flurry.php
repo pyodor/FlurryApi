@@ -1,5 +1,5 @@
 <?php
-class Flurry {
+class Flurry extends Object {
 	
 	protected $api_access;
     protected $app_key;
@@ -27,13 +27,20 @@ class Flurry {
 		return $metricValues;
     }
 
-    public function getEventMetric($metricName, $startDate, $endDate, $versionName=FALSE){
+    public function getEventMetric($metricName, $startDate, $endDate, $versionName=FALSE, $eventName=FALSE){
 		$URLRequest = "http://api.flurry.com/eventMetrics/$metricName?apiAccessCode=$this->api_access&apiKey=$this->app_key&startDate=$startDate&endDate=$endDate";
 
 		if ($versionName)
 			$URLRequest .= "&versionName=$versionName";
 
-		$config = array(
+        if($metricName=="Event") {
+            if($eventName) 
+                $URLRequest .= "&eventName=$eventName";
+            else
+                throw new CakeException('Event Name required');
+        }
+
+        $config = array(
 			'http' => array(
 				'header' => 'Accept: application/xml',
 				'method' => 'GET',
